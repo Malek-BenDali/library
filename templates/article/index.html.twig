@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Acceuil{% endblock %}
+{% block body %}
+
+
+<section class="articles">
+    {% for article in articles %}
+        <br><article>
+            <h2>{{ article.title }}</h2>
+            <div class="metadata">Ajouter le {{article.createdAt | date('d/m/Y') }} à {{ article.createdAt | date('H:i')}} dans la categorie {{ article.category.title }} </div>
+            <div class="content">
+                <img src="{{ article.image }}" alt="">
+                <a href="{{path('article_show', { 'id' : article.id })}}" class="btn btn-info">voire plus </a>
+                <a href="{{ path("cart_add", {'id' : article.id })}}" class="btn btn-success"> Ajouter au panier
+                        <i class="fas fa-shopping-cart mr-1"></i></a>
+            </div>
+        </article><br>
+    {% endfor %}
+</section>
+
+    
+{% endblock %}

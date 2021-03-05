@@ -1,0 +1,58 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello CartController!
+{% endblock %}
+
+{% block body %}
+    <div class="bg-light p-3">
+        <h1>Votre panier</h1>
+    </div>
+    {% if not app.user %}
+
+    <div>
+        <h5> Pour avoire un panier veuiller vous <a href="{{path('security_connexion')}}"> connecter </a> ou bien inscrivez vous <a href="{{path("security_inscription")}}"> ici </a><h5>
+    </div>
+
+    {% elseif items | length > 0 %}
+        
+        <table class="table">
+            <thead>
+                <tr>
+                    <th> Produit </th>
+                    <th> Prix </th>
+                    <th> Quantités </th>
+                    <th> Total </th>
+                    <th></th>
+                </tr>
+            </thead> 
+            <tbody>
+                {% for item in items %}
+                    <tr>
+                        <td> {{ item.article.title }}</td>
+                        <td>{{ item.article.price }}</td>
+                        <td>{{ item.quantity }}</td>
+                        <td>{{ item.article.price * item.quantity }}</td>
+                        <td>
+                            <a href=" {{ path('cart_remove', { 'id' : item.article.id})}}" class="btn btn-danger btn-sm">
+                                <i class="fas fa-trash"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    
+                {% endfor %}
+            </tbody> 
+            <tfoot>
+                <tr>
+                    <td colspan="3" class="text-right"> Total : </td>
+                    <td> {{ total }}</td>
+                    <td></td>
+                </tr>
+            </tfoot>
+        </table>
+
+    {% else %}
+        <p>Votre Panier est vide :( </p>
+    {% endif %}
+    
+    
+{% endblock %}

@@ -1,0 +1,48 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+    <article>
+        <h2>{{ article.title }}</h2>
+        <div class="metadata">Ajouter le {{ article.createdAt | date('d/m/Y') }} à {{ article.createdAt | date('H:i')}} </div>
+        <div class="content">
+            <img src="{{ article.image }}" alt="">
+            {{ article.content | raw }}<br>
+            Note : {{ article.note }}/5 <br>
+            Prix : {{ article.price }} € <br>
+            <a href="{{ path("cart_add", {'id' : article.id })}}" class="btn btn-success"> Ajouter au panier
+                        <i class="fas fa-shopping-cart mr-1"></i>
+            <a href="{{ path("article_home")}}" class="btn btn-primary"> Retour à l'acceuil</a>
+            <a href="{{path('article_edit', { 'id' : article.id })}}" class="btn btn-warning"> Editer </a>
+        </div>
+    </article>
+    <br><br>
+    <section id="commentaires">
+
+            <h3> Les commentaires </h3>
+            {% for comment in article.comments %}
+                <div class="comment">
+                    <div class="row">
+                        <div class="col-3">
+                            {{comment.author}} ( <small> {{ comment.createdAt | date('d/m/Y à H:i')}}</small> )
+                        </div>
+                        <div class="col">
+                        {{comment.content | raw}}
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% if not app.user %}
+         <h4>  <a href="{{path("security_inscription")}}">connectez</a> vous pour ajouter un commentaire </h4>
+        {% else %}
+        <h4> Ajouter un commentaire </h4>
+        {{ form_start(formComment) }}
+            {{ form_row(formComment.author) }}
+            {{ form_row(formComment.content , { 'label': 'Votre commentaire ' , 'attr' : {'placeholder' : " Ecrivez votre commentaire ici " }}) }}
+             <button type='submit' class='btn btn-secondary'> Commentez ! </button>
+        {{ form_end(formComment)}}
+
+        {% endif %}
+
+    </section>
+    
+{% endblock %}

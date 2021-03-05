@@ -1,0 +1,36 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+
+    {% if not app.user %}
+        {% if editMode %}
+        <div>
+            <h5> Pour creé un article veuiller vous <a href="{{path('security_connexion')}}"> connecter </a> ou bien inscrivez vous <a href="{{path("security_inscription")}}"> ici </a><h5>
+        </div> 
+        {% else %}
+        <div>
+            <h5> Pour editer un article veuiller vous <a href="{{path('security_connexion')}}"> connecter </a> ou bien inscrivez vous <a href="{{path("security_inscription")}}"> ici </a><h5>
+        </div>
+        {% endif %}
+    {% else %}
+
+        <h1>Creation d'un article </h1>
+        {{ form_start(formArticle) }}
+            {{ form_row(formArticle.category)}}
+            {{ form_row(formArticle.title , { 'attr' : {'placeholder' : "titre de l'article" }}) }}
+            {{ form_row(formArticle.content , { 'attr' : {'placeholder' : "Ajouter une description de l'article " }}) }}
+            {{ form_row(formArticle.image , { 'attr' : {'placeholder' : "image de l'article" }}) }}
+            {{ form_row(formArticle.price , { 'label': 'Prix en ' , 'attr' : {'placeholder' : " 10 " }}) }}
+            {{ form_row(formArticle.note , { 'label':' Note /5','attr' : {'placeholder' : " 5 " }}) }}
+            <button type='submit' class='btn btn-success'>
+                {% if editMode %}
+                Ajouter l'article 
+                {% else %}
+                Editer
+                {% endif %}
+            </button>
+        {{ form_end(formArticle)}}
+    {% endif %}
+
+
+{% endblock %}
